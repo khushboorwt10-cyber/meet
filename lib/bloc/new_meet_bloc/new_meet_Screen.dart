@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meet_easyy/bloc/meeting_room_bloc/meeting_scren.dart';
 import 'package:meet_easyy/bloc/new_meet_bloc/service/create_meeting_servic.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/new_meeting_model.dart';
 import '../host_Wait_bloc/host_bloc.dart';
 import '../host_Wait_bloc/host_wait_screen.dart';
@@ -17,11 +18,40 @@ const Color kSurface = Color(0xFFF8FAFC);
 const Color kTextPrimary = Color(0xFF1E293B);
 const Color kTextSecondary = Color(0xFF64748B);
 
-class NewMeetingScreen extends StatelessWidget {
+class NewMeetingScreen extends StatefulWidget {
   const NewMeetingScreen({super.key});
 
   @override
+  State<NewMeetingScreen> createState() => _NewMeetingScreenState();
+}
+
+class _NewMeetingScreenState extends State<NewMeetingScreen> {
+ String userName = "";
+
+  String userId = "";
+
+  @override
+  void initState() {
+    super.initState();
+    loadUser();
+  }
+
+  Future<void> loadUser() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      userName =
+          prefs.getString("user_name") ?? "Host";
+
+      userId =
+          prefs.getString("user_id") ?? "";
+    });
+  }
+
+  @override
+  
   Widget build(BuildContext context) {
+    
     return BlocProvider(
       create: (context) => NewMeetingBloc(MeetingService()),
 
@@ -135,37 +165,38 @@ class NewMeetingScreen extends StatelessWidget {
                     width: double.infinity,
                     height: 55,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        // 1. ERROR FIX: meetingId -> roomId
+                      style: ElevatedButton.styleFrom( 
                         backgroundColor: roomId == null ? Colors.grey.shade400 : kPrimary,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
                         elevation: 0,
                       ),
-                      onPressed: roomId == null
-                          ? null
-                          : () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => BlocProvider(
-                                create: (_) => MeetingBloc(
-                                  roomId: roomId!,
-                                ),
-                                child: MeetingRoomScreen(
-                              meeting: MeetingModel2(
-                                roomId: roomId!,
-                                userId: "",
-                                userName: "",
-                                isHost: true,
-                                status: "active",
-                              ),
-                            ),
-                          ),
-                            ),
-                        );
-                      },
+                    onPressed: roomId == null
+    ? null
+    : () {
+        final hostId = userId;
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => BlocProvider(
+              create: (_) => MeetingBloc(
+                roomId: roomId,
+              ),
+              child: MeetingRoomScreen(
+              meeting: MeetingModel2(
+  roomId: roomId,
+  userId: hostId,
+  userName: userName,
+  isHost: true,
+  status: "active",
+),
+              ),
+            ),
+          ),
+        );
+      },
                       child: const Text(
                         "Start Meeting",
                         style: TextStyle(

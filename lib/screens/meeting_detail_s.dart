@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
-
 class MeetingDetailsScreen extends StatelessWidget {
-  final String meetingTitle;
+  final Map<String, dynamic> meetingData;
 
   const MeetingDetailsScreen({
     super.key,
-    required this.meetingTitle, required String meetingId,
+    required this.meetingData,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF4F7FC),
-
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios,
-              color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+          onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           "Meeting Details",
@@ -32,12 +30,10 @@ class MeetingDetailsScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(22),
@@ -49,17 +45,9 @@ class MeetingDetailsScreen extends StatelessWidget {
                   ],
                 ),
                 borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.deepPurple.withOpacity(0.2),
-                    blurRadius: 15,
-                    offset: const Offset(0, 6),
-                  ),
-                ],
               ),
               child: Column(
                 children: [
-
                   Container(
                     padding: const EdgeInsets.all(18),
                     decoration: BoxDecoration(
@@ -72,11 +60,10 @@ class MeetingDetailsScreen extends StatelessWidget {
                       size: 40,
                     ),
                   ),
-
                   const SizedBox(height: 18),
 
                   Text(
-                    meetingTitle,
+                    meetingData["title"] ?? "Meeting",
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
@@ -87,35 +74,21 @@ class MeetingDetailsScreen extends StatelessWidget {
 
                   const SizedBox(height: 10),
 
-                  const Text(
-                    "Meeting ID : 843 229 112",
-                    style: TextStyle(
+                  Text(
+                    "Meeting ID : ${meetingData["meetingId"] ?? ""}",
+                    style: const TextStyle(
                       color: Colors.white70,
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
 
-                  Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceEvenly,
-                    children: [
-
-                      _topButton(
-                        icon: Icons.copy,
-                        title: "Copy",
-                      ),
-
-                      _topButton(
-                        icon: Icons.share,
-                        title: "Share",
-                      ),
-
-                      _topButton(
-                        icon: Icons.download,
-                        title: "Save",
-                      ),
-                    ],
+                  Text(
+                    meetingData["description"] ?? "",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white70,
+                    ),
                   ),
                 ],
               ),
@@ -131,29 +104,32 @@ class MeetingDetailsScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-
                   _detailTile(
                     icon: Icons.calendar_month,
                     title: "Date",
-                    value: "20 May 2026",
+                    value: meetingData["date"] ?? "-",
                   ),
-
                   _detailTile(
                     icon: Icons.access_time,
                     title: "Time",
-                    value: "10:30 AM",
+                    value: meetingData["time"] ?? "-",
                   ),
-
                   _detailTile(
                     icon: Icons.people_alt_outlined,
                     title: "Participants",
-                    value: "12 Joined",
+                    value:
+                        "${meetingData["members"] ?? "0"} Joined",
                   ),
-
                   _detailTile(
-                    icon: Icons.lock_outline,
-                    title: "Security",
-                    value: "End-to-End Encrypted",
+                    icon: Icons.person,
+                    title: "Host",
+                    value: meetingData["host"] ?? "-",
+                  ),
+                  _detailTile(
+                    icon: Icons.timer,
+                    title: "Duration",
+                    value:
+                        "${meetingData["duration"] ?? "0"} Minutes",
                   ),
                 ],
               ),
@@ -169,12 +145,10 @@ class MeetingDetailsScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(22),
               ),
               child: Column(
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   const Text(
-                    "Participants",
+                    "Meeting Description",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -182,53 +156,21 @@ class MeetingDetailsScreen extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 15),
 
-                  _participantTile("Aman Sharma"),
-                  _participantTile("Priya Singh"),
-                  _participantTile("Rahul Verma"),
-                  _participantTile("Khushboo Rawat"),
+                  Text(
+                    meetingData["description"] ??
+                        "No Description",
+                    style: const TextStyle(
+                      color: Colors.black87,
+                    ),
+                  ),
                 ],
               ),
             ),
-
-            const SizedBox(height: 30),
-
-
-            const SizedBox(height: 20),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _topButton({
-    required IconData icon,
-    required String title,
-  }) {
-    return Column(
-      children: [
-
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.18),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon,
-              color: Colors.white, size: 22),
-        ),
-
-        const SizedBox(height: 6),
-
-        Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 12,
-          ),
-        ),
-      ],
     );
   }
 
@@ -241,7 +183,6 @@ class MeetingDetailsScreen extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 18),
       child: Row(
         children: [
-
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -253,15 +194,12 @@ class MeetingDetailsScreen extends StatelessWidget {
               color: const Color(0xFF5B5FEF),
             ),
           ),
-
           const SizedBox(width: 15),
-
           Expanded(
             child: Column(
               crossAxisAlignment:
-              CrossAxisAlignment.start,
+                  CrossAxisAlignment.start,
               children: [
-
                 Text(
                   title,
                   style: const TextStyle(
@@ -269,58 +207,17 @@ class MeetingDetailsScreen extends StatelessWidget {
                     fontSize: 13,
                   ),
                 ),
-
                 const SizedBox(height: 4),
-
                 Text(
                   value,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 15,
-                    color: Colors.black
+                    color: Colors.black,
                   ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _participantTile(String name) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Row(
-        children: [
-
-          CircleAvatar(
-            backgroundColor: Colors.deepPurple.shade100,
-            child: Text(
-              name[0],
-              style: const TextStyle(
-                color: Colors.deepPurple,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-
-          const SizedBox(width: 12),
-
-          Expanded(
-            child: Text(
-              name,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                color: Colors.black
-              ),
-            ),
-          ),
-
-          const Icon(
-            Icons.circle,
-            color: Colors.green,
-            size: 10,
           ),
         ],
       ),

@@ -12,18 +12,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this.authService) : super(AuthInitial()) {
 
     on<LoginEvent>((event, emit) async {
-      emit(AuthLoading());
-      try {
-        final res = await authService.login(event.email, event.password);
+  emit(AuthLoading());
 
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('auth_token', res['token']);
+  try {
+    final res = await authService.login(
+      event.email,
+      event.password,
+    );
 
-        emit(AuthSuccess("Login Success"));
-      } catch (e) {
-        emit(AuthError(e.toString().replaceAll("Exception: ", "")));
-      }
-    });
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString('auth_token', res['token']);
+
+    // API se jo name aa raha hai usko save karo
+    await prefs.setString(
+      'user_name',
+      res['user']['name'],
+    );
+
+    await prefs.setString(
+      'user_id',
+      res['user']['_id'],
+    );
+
+    emit(AuthSuccess("Login Success"));
+  } catch (e) {
+    emit(AuthError(
+      e.toString().replaceAll("Exception: ", ""),
+    ));
+  }
+});
+    
     on<RegisterEvent>((event, emit) async {
       emit(AuthLoading());
       try {

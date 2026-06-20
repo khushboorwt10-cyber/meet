@@ -33,7 +33,6 @@ class HostService {
     return false;
   }
 
-  // GET PARTICIPANTS
   Future<List<dynamic>> getWaitingParticipants(String roomId) async {
     String? token = await _getToken();
     final url = "https://meet-five-ruby.vercel.app/api/meeting/participants/$roomId";
