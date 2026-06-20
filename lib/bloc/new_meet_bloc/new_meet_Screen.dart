@@ -6,8 +6,6 @@ import 'package:meet_easyy/bloc/new_meet_bloc/service/create_meeting_servic.dart
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/new_meeting_model.dart';
-import '../host_Wait_bloc/host_bloc.dart';
-import '../host_Wait_bloc/host_wait_screen.dart';
 import '../meeting_room_bloc/meeting_room_bloc.dart';
 import 'new_meet_bloc.dart';
 import 'new_meet_event.dart';

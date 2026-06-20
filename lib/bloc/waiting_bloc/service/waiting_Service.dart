@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 
 class WaitingService {
-  final String baseUrl = "https://meet-five-ruby.vercel.app/api/meeting/waiting/";
+  final String baseUrl = "https://meet-2zo9.onrender.com/api/meeting/waiting/";
 
   Future<String> checkWaitingStatus(
       String roomId,

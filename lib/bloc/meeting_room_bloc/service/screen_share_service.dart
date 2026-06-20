@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ScreenShareService {
 
   static const String baseUrl =
-      "https://meet-five-ruby.vercel.app/api/meeting";
+      "https://meet-2zo9.onrender.com/api/meeting";
 
   /// START SCREEN SHARE
   Future<bool> startScreenShare(String roomId) async {

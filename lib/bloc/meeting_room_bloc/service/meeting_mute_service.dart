@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class MeetingMuteService {
   static const String baseUrl =
-      "http://192.168.1.2:5000/api/meeting";
+      "https://meet-2zo9.onrender.com/api/meeting";
 
   static Future<bool> selfMute({
     required String roomId,

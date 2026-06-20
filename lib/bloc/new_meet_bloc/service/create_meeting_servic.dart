@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MeetingService {
-  final String baseUrl = "https://meet-five-ruby.vercel.app/api/meeting";
+  final String baseUrl = "https://meet-2zo9.onrender.com/api/meeting";
 
   Future<Map<String, dynamic>> createMeeting() async {
     final prefs = await SharedPreferences.getInstance();

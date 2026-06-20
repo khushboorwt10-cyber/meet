@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HostService {
-  final String baseUrl = "https://meet-five-ruby.vercel.app/api/meeting";
+  final String baseUrl = "https://meet-2zo9.onrender.com/api/meeting";
 
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -35,7 +35,7 @@ class HostService {
 
   Future<List<dynamic>> getWaitingParticipants(String roomId) async {
     String? token = await _getToken();
-    final url = "https://meet-five-ruby.vercel.app/api/meeting/participants/$roomId";
+    final url = "https://meet-2zo9.onrender.com/api/meeting/participants/$roomId";
 
     debugPrint("Fetching participants from: $url");
 

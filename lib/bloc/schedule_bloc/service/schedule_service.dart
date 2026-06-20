@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ScheduleService {
   static const String baseUrl =
-      "http://192.168.1.2:5000/api/scheduled-meeting";
+      "https://meet-2zo9.onrender.com/api/scheduled-meeting";
 
   Future<String?> _getToken() async {
     print("🔐 ========== GETTING TOKEN ==========");
@@ -20,15 +20,12 @@ class ScheduleService {
       return null;
     }
   }
-
-  // GET ALL SCHEDULES - Updated to use /upcoming endpoint
   Future<List<dynamic>> getSchedules() async {
     print("📋 ========== GET SCHEDULES ==========");
     print("⏰ TIME: ${DateTime.now()}");
     
     try {
       final token = await _getToken();
-      // Changed from my-scheduled to upcoming
       final url = "$baseUrl/upcoming";
       
       print("🌐 URL: $url");
@@ -49,7 +46,6 @@ class ScheduleService {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        // Handle the new response structure
         final meetings = data["meetings"] ?? [];
         print("✅ SUCCESS: Found ${meetings.length} meetings");
         print("📋 ===================================");
@@ -68,7 +64,6 @@ class ScheduleService {
     }
   }
 
-  // CREATE NEW SCHEDULE
   Future<Map<String, dynamic>> createSchedule({
     required String topic,
     required String description,
@@ -129,8 +124,6 @@ class ScheduleService {
       rethrow;
     }
   }
-
-  // UPDATE SCHEDULE using roomId
   Future<Map<String, dynamic>> updateSchedule({
     required String roomId,
     required String topic,
@@ -190,8 +183,6 @@ class ScheduleService {
       rethrow;
     }
   }
-
-  // DELETE SCHEDULE using roomId
   Future<Map<String, dynamic>> deleteSchedule({
     required String roomId,
   }) async {
@@ -238,7 +229,6 @@ class ScheduleService {
     }
   }
 
-  // START MEETING using roomId
   Future<Map<String, dynamic>> startMeeting({
     required String roomId,
   }) async {

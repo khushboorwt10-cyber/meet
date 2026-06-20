@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../auth_screen/model/auth_model.dart';
 
 class AuthService {
-  final String baseUrl = "https://meet-five-ruby.vercel.app/api/auth";
+  final String baseUrl = "https://meet-2zo9.onrender.com/api/auth";
 
   Future<void> _saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();

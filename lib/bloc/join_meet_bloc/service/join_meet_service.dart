@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart'; // debugPrint ke liye
 import '../model/join_meet_model.dart';
 
 class ApiService {
-  final String baseUrl = "https://meet-five-ruby.vercel.app/api/meeting/join";
+  final String baseUrl = "https://meet-2zo9.onrender.com/api/meeting/join";
 
   Future<JoinMeetingResponse> joinMeeting(String roomId, String token) async {
 
